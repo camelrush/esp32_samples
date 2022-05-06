@@ -3,3 +3,5 @@
 |--|--|--|
 |2022/04/03|環境構築|[MicroPython実行環境セットアップ手順](./esp32_setup_micropython/)|
 |2022/04/10|サンプルPG|[LightSleepモードの実行方法(GPIO)](./esp32_lighsleep_wakebygpio)|
+|2022/05/07|サンプルPG|[Bluetooth(BLE)送信(to RaspberryPi)](./esp32_ble_toRaspi)|
+
