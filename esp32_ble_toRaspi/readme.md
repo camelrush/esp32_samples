@@ -19,6 +19,7 @@
   - Peripheral(ESP32)が、アドバタイズ（定期的にAdvertiseパケットを発信）を開始する。
   - Central(RaspberryPi)が、スキャン（bleak.discover）を実行してアドバタイズしているPeripheralを検知する。
   - Centralが、Peripheralへ接続要求を行う。Periphralが応答して接続を確立。
+  
   ![advertise](./img/advertise.png)
 
 ### 参考情報
