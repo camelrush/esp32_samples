@@ -13,11 +13,40 @@ ESP32には、消費電力を抑えるための「スリープモード」が、
 
 ポイントを要約すると、通常(『Active mode』)では **100mA** 前後消費(WifiやBLE状況の使用状況に依存)する電力を、『Light-sleep mode』で動作させた場合は **0.8mA(125分の1)**、『Deep-sleep mode』で動作させた場合は **0.15mA(666分の1)** まで下げることができる、ということ。
 
-## サンプルソース
+## サンプルPG
 
-ここで照会するサンプルでは、GPIO33番にリードスイッチのOUTを読み込んでいる。ESP32は起動直後にLightSleepモードに入る。リードスイッチに磁石を近づけるとリードスイッチがONされ、LEDが点灯されるとともに（GPIO33番に信号がHIGHとなることで）ESP32がスリープ状態から復帰する。磁石を離してリードスイッチがOFFとなると、信号がLOW状態となり、再度LightSleepモードに移行する。
+### ソース(ESP32)
+
+```csharp
+void setup() {
+  // シリアル出力初期化
+  Serial.begin(115200);
+
+  // シリアル出力初期化
+  Serial.println("Sleep!!");
+  esp_deep_sleep_start();
+  Serial.println("Wake?(on setup)"); // ← 出力されない
+}
+
+void loop(){
+  // ダミー出力
+  Serial.println("Wake?(on loop)"); // ← 出力されない
+}
+```
 
 #### 配線図 
-![配線図](./img/esp32_lighsleep_wakebygpio.png)
+![配線図](./img/esp32_deepsleep_wakebyenpin.png)
 
 
+ここで照会するサンプルは、次のような動作をする。  
+リードスイッチは普段ONの（磁石が近づいている）状態が前提である。  
+このとき、プルアップによりEN(Reset)ピンへの入力はHIGHである。
+
+- ESP32は起動時にSetup()処理を行い、直後にDeepSleepに移行する。
+- DeepSleep中は、上表のとおり電力消費が最低に抑えられている。
+- リードスイッチが磁石から離れる（スイッチがOFFになる）と、EN(Reset)ピンへの入力がHIGH→LOWに変わる。
+- EN(Reset)ピンへの入力変化により、ハードウェアリセットがかかる。
+- 再度Setup()の処理が実行される。
+- その後、再度DeepSleepに移行する。
+
+基本動作がDeepSleep状態であるため、相当に消費電力を抑えられるはずである。
