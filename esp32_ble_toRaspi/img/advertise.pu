@@ -1,0 +1,25 @@
+@startuml アドバタイズ
+participant  "ペリフェラル(ESP32)" as p
+participant  "セントラル(RaspberryPi)" as c
+p->c:アドバタイズ
+p->c:アドバタイズ
+p->c:アドバタイズ
+p->c:：
+p->c:：
+p->c:アドバタイズ
+p<-c:スキャン要求
+p->c:スキャン応答
+p<-c:接続要求
+alt 
+p<--->c:BLE接続
+note over p:スレーブ
+note over c:マスター
+note over p,c : \n\nGATT通信\n\n
+p<--->c:BLE切断
+end 
+p->c:アドバタイズ
+p->c:アドバタイズ
+p->c:アドバタイズ
+p->c:：
+p->c:：
+@enduml
