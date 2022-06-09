@@ -70,7 +70,7 @@ void loop() {
   if (deviceConnected) {
     Serial.printf("*** NOTIFY: %d ***\n", value);
     char buffer[10];
-    sprintf(buffer, "No1:%d", value⏪);  // ここを識別用に書き換えるとよい
+    sprintf(buffer, "No1:%d", value);  // ここを識別用に書き換えるとよい
     Serial.printf(buffer);
     pCharacteristic->setValue(buffer);
     pCharacteristic->notify();
